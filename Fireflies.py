@@ -15,11 +15,6 @@ class Fireflies:
     def initilialize_fireflies(self):
         for i in range(int(self.nr_fireflies/2)):
             self.fireflies[i] = 1
-    
-    def random_position(self):
-        x = rnd.randint(0, self.grid_length)
-        y = rnd.randint(0, self.grid_length)
-        return (x, y)
 
     def draw_fireflies(self):
         non_glowing_fireflies = np.where(self.fireflies == 0)[0]
