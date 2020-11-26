@@ -29,7 +29,7 @@ class Fireflies:
         plt.plot(self.x[glowing_fireflies], self.y[glowing_fireflies], linestyle='none', marker='o', markersize=3, color='yellow')
         plt.axis([0, self.grid_length, 0, self.grid_length])
         plt.draw()
-        plt.pause(1)
+        plt.pause(0.1)
 
     def update_velocities(self):
         self.velocities = np.random.randint(-self.velocity_range, self.velocity_range, size=(self.nr_fireflies, 2))
@@ -37,6 +37,10 @@ class Fireflies:
     def move_fireflies(self):
         self.x = np.add(self.x, self.velocities[:, 0])
         self.y = np.add(self.y, self.velocities[:, 1])
+        self.x[np.where(self.x > self.grid_length)] = 0     # Periodic boundary
+        self.x[np.where(self.x < 0)] = self.grid_length
+        self.y[np.where(self.y > self.grid_length)] = 0
+        self.y[np.where(self.y < 0)] = self.grid_length
         
     def step(self):
         for i in range(self.nr_steps):
