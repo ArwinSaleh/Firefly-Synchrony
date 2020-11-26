@@ -3,10 +3,9 @@ import numpy as np
 from numpy.core.fromnumeric import size
 import numpy.random as rnd
 import matplotlib.pyplot as plt
-plt.style.use('dark_background')
 import math
 import cmath
-
+#plt.style.use('dark_background')
 
 class Fireflies:
     def __init__(self, nr_agents, grid_length, nr_steps, K, velocity_range=2):
@@ -22,7 +21,7 @@ class Fireflies:
         self.current_step = 1
         self.theta_dot = np.random.uniform(
             -math.pi, math.pi, size=(nr_agents, 1))
-        self.psi = np.sum(self.theta) / len(self.theta)
+        self.psi = 0
         self.K = K
         self.omega = np.random.normal(0, nr_agents, (nr_agents, 1))
         self.r = 0
@@ -35,6 +34,7 @@ class Fireflies:
         self.psi = np.sum(self.theta) / len(self.theta)
 
     def draw_fireflies(self):
+        '''
         non_glowing_fireflies = np.where(self.fireflies == 0)[0]
         glowing_fireflies = np.where(self.fireflies == 1)[0]
 
@@ -53,9 +53,16 @@ class Fireflies:
             marker='o',
             markersize=3,
             color='yellow')
-        plt.axis([0, self.grid_length, 0, self.grid_length])
+            '''
+
+        plt.cla()
+        #plt.pcolor(np.random.rand(10,10),cmap='rainbow')
+        plt.plot(np.cos(self.theta), np.sin(self.theta), linestyle='none', marker='.')
+        plt.axis([-1.1, 1.1, -1.1, 1.1])
+        plt.xlabel('cos(theta)')
+        plt.ylabel('sin(theta)')
         plt.draw()
-        plt.pause(0.1)
+        plt.pause(0.00001)
 
     def update_velocities(self):
         self.velocities = np.random.randint(
@@ -73,14 +80,14 @@ class Fireflies:
 
     def step(self, DRAW=False):
         for step in range(self.nr_steps):
-          self.update_r()
-          self.update_psi()
-          for i in range(self.nr_fireflies):
-            self.update_omega(i)
-            self.update_theta(i)
+            self.update_r()
+            self.update_psi()
+            for i in range(self.nr_fireflies):
+                self.update_omega(i)
+                self.update_theta(i)
             if DRAW:
                 self.draw_fireflies()
-          self.current_step += 1
+            self.current_step += 1
 
     def update_omega(self, i):
         self.omega[i] = self.K * self.r * math.sin(self.theta[i])
@@ -101,8 +108,8 @@ class Fireflies:
 
 def run_system():
     oscillators = Fireflies(
-        nr_agents=10000, grid_length=100, nr_steps=10000, K=0.01)
+        nr_agents=1000, grid_length=100, nr_steps=10000, K=0.1)
     oscillators.initialize_fireflies()
-    oscillators.step(DRAW=False)
+    oscillators.step(DRAW=True)
 
 run_system()
