@@ -17,11 +17,11 @@ class Fireflies:
         self.velocities = np.zeros((nr_agents, 2))
         self.nr_steps = nr_steps
         self.velocity_range = velocity_range
-        self.theta = np.random.uniform(0, 2*math.pi, size=(nr_agents, 1))
+        self.theta = np.random.uniform(0, 1, size=(nr_agents, 1))
         self.current_step = 1
         self.theta_dot = np.random.uniform(
             -math.pi, math.pi, size=(nr_agents, 1))
-        self.psi = 0
+        self.psi = np.sum(self.theta) / self.nr_fireflies
         self.K = K
         self.omega = np.random.normal(0, nr_agents, (nr_agents, 1))
         self.r = 0
@@ -31,7 +31,7 @@ class Fireflies:
             self.fireflies[i] = 1
 
     def update_psi(self):
-        self.psi = np.sum(self.theta) / len(self.theta)
+        self.psi = np.sum(self.theta) / self.nr_fireflies
 
     def draw_fireflies(self):
         '''
@@ -104,7 +104,7 @@ class Fireflies:
       for i in range(self.nr_fireflies):
         tmp += cmath.exp(1J*(self.theta[i]-self.psi))
       self.r = abs(tmp) / self.nr_fireflies
-      print(self.r)
+      print(self.theta)
 
 def run_system():
     oscillators = Fireflies(
