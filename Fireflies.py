@@ -104,7 +104,6 @@ class Fireflies:
       for i in range(self.nr_fireflies):
         tmp += cmath.exp(1J*(self.theta[i]-self.psi))
       self.r = abs(tmp) / self.nr_fireflies
-      print(self.theta)
 
 def run_system():
     oscillators = Fireflies(
